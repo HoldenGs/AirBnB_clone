@@ -3,7 +3,7 @@
 import json
 
 class FileStorage:
-    __file_path = storage.json
+    __file_path = "storage.json"
     __objects = {}
 
     def all(self):
