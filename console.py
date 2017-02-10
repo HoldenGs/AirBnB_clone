@@ -10,11 +10,35 @@ class Hosh(cmd.Cmd):
     classes = ["BaseModel"]
     file = None
 
+    def do_update(self, arg):
+        obj = find_object(self, arg)
+        if obj == None:
+            return
+        args = arg.split(' ')
+        if len(args) < 4:
+            print("** value missing **")
+            return
+        setattr(obj, args[2], args[3].strip('"'))
+        obj.save()
+
+    def do_all(self, arg):
+        if len(arg) == 0:
+            for key in storage.all().keys():
+                print(storage.all()[key])
+            return
+        if arg not in self.classes:
+            print("** class doesn't exist **")
+            return
+        for key in storage.all().keys():
+            if storage.all()[key].__class__.__name__ == arg:
+                print(storage.all()[key])
+
     def do_destroy(self, arg):
         """Delete an object"""
         obj = find_object(self, arg)
         if obj != None:
             del storage.all()[obj.id]
+            storage.save()
 
     def do_show(self, arg):
         """Print out an object"""
