@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import json
+import datetime
 
 class FileStorage:
     __file_path = "storage.json"
@@ -14,8 +15,13 @@ class FileStorage:
 
     def save(self):
         with open(self.__file_path, 'w') as file:
-            json.dump(self.__objects, file)
+            json.dump(self.__objects, file,
+                      default=lambda obj:
+                      (obj.isoformat() if isinstance(obj, datetime.datetime) else obj.__dict__))
 
     def reload(self):
-        with open(self.__file_path, 'r') as file:
-            self.__objects = json.load(file)
+        try:
+            with open(self.__file_path, 'r') as file:
+                self.__objects = json.load(file)
+        except FileNotFoundError:
+            pass
