@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import json
+from models import *
 
 class FileStorage:
     __file_path = "storage.json"
@@ -21,11 +22,24 @@ class FileStorage:
 
     def reload(self):
         try:
-            from ..base_model import BaseModel
             objects = {}
             with open(self.__file_path, 'r') as file:
                 objects = json.load(file)
                 for key in objects.keys():
-                    self.__objects[key] = BaseModel(objects[key])
+                    cls = objects[key].get('__class__')
+                    if cls == "Review":
+                        self.__objects[key] = Review(objects[key])
+                    if cls == "Place":
+                        self.__objects[key] = Place(objects[key])
+                    if cls == "Amenity":
+                        self.__objects[key] = Amenity(objects[key])
+                    if cls == "City":
+                        self.__objects[key] = City(objects[key])
+                    if cls == "State":
+                        self.__objects[key] = State(objects[key])
+                    if cls == "User":
+                        self.__objects[key] = User(objects[key])
+                    if cls == "BaseModel":
+                        self.__objects[key] = BaseModel(objects[key])
         except FileNotFoundError:
             pass
