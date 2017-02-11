@@ -42,11 +42,14 @@ class BaseModelTest(unittest.TestCase):
         model2_testid = self.model2_test.id
         jsondict_obj = self.model2_test.to_json()
         self.assertNotEqual(self.model2_test.__dict__, jsondict_obj)
+        self.assertNotIsInstance(jsondict_obj["created_at"], datetime)
+        self.assertNotIsInstance(jsondict_obj["updated_at"], datetime)
         self.assertEqual(jsondict_obj["id"], self.model2_test.__dict__["id"])
         self.assertNotEqual(jsondict_obj["created_at"],
                             self.model2_test.__dict__["created_at"])
         self.assertNotEqual(type(jsondict_obj["created_at"]),
                             type(self.model2_test.__dict__["created_at"]))
+        self.assertEqual(jsondict_obj["__class__"], "BaseModel")
 
 if __name__ == '__main__':
     unittest.main()
