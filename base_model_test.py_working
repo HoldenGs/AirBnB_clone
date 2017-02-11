@@ -14,8 +14,11 @@ class BaseModelTest(unittest.TestCase):
 
     def basic_setup_test(self):
         """
+        test model instantianion
         to_json method of BaseModel class
         """
+        self.assertIsInstance(self.model1_test, BaseModel)
+        self.assertIsInstance(self.model2_test, BaseModel)
         self.assertTrue(hasattr(self.model1_test, "id"))
         self.assertTrue(hasattr(self.model1_test, "__class__"))
         self.assertTrue(hasattr(self.model1_test, "created_at"))
