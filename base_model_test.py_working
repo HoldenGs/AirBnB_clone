@@ -12,7 +12,7 @@ class BaseModelTest(unittest.TestCase):
         self.model1_test = BaseModel()
         self.model2_test = BaseModel()
 
-    def basic_setup_test(self):
+    def test_instantiation(self):
         """
         test model instantianion
         to_json method of BaseModel class
@@ -24,9 +24,11 @@ class BaseModelTest(unittest.TestCase):
         self.assertTrue(hasattr(self.model1_test, "created_at"))
         self.assertTrue(hasattr(self.model1_test, "updated_at"))
         self.assertTrue(self.model1_test.id != self.model2_test.id)
+
+    def test_reinstantiation(self):
         model1_ctime = self.model1_test.created_at
         model2_ctime = self.model2_test.created_at
-        self.assertTrue(model1_ctime != modle2_ctime)
+        self.assertTrue(model1_ctime != model2_ctime)
         self.assertTrue(type(model1_ctime) is datetime.datetime)
 
     def test_save(self):
