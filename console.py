@@ -13,8 +13,11 @@ from models.__init__ import storage
 
 class Hosh(cmd.Cmd):
     prompt = "(hbnb) "
-    classes = ["BaseModel", "User", "State", "City", "Amenity", "Place", "Review"]
+    classes = ["BaseModel", "User", "State", "City", "Amenity", "Review", "Place"]
     file = None
+
+    def preloop(self):
+        self.create_class_methods()
 
     def do_update(self, arg):
         """Update or create a new attribute for an object"""
@@ -88,11 +91,41 @@ class Hosh(cmd.Cmd):
         """Do nothing when entered an empty line"""
         pass
 
+    def create_class_methods(self):
+        """Create a do_<cls> method for each existing class"""
+        for cls in self.classes:
+            self.create_method(cls)
+
+    def create_method(self, cls):
+        """Create a do_<cls> method for a class"""
+        def class_method(self, arg):
+            """Parses arg line and formats a string to use existing methods"""
+            args = arg.split('(')
+            if args[0][:1] == '.' and args[1][-1:] == ')':
+                formatted_arg = custom_method.__name__[3:] + " " + args[1][:-1]
+                l = formatted_arg.split(' ')
+                if len(l) > 4:
+                    print("too many arguments")
+                    return
+                if len(l) > 3:
+                    value = l[3].replace("'", '"')
+                if len(l) > 1:
+                    formatted_arg = ""
+                    for item in l[:-1]:
+                        formatted_arg += " " + item.strip(',')
+                formatted_arg = formatted_arg + " " + value
+                formatted_arg = formatted_arg[1:]
+                exec("self.do_{:s}('{:s}')".format(args[0][1:], formatted_arg))
+        custom_method.__doc__ = "Execute method for {} based on argument".format(cls)
+        custom_method.__name__ = "do_{}".format(cls)
+        setattr(self.__class__, custom_method.__name__, custom_method)
+
     def close(self):
         """Close any open file before exiting"""
         if self.file:
             self.file.close()
             self.file = None
+
 
 def find_object(self, arg):
     """Find an object based on class and id"""
