@@ -29,14 +29,6 @@ class CityTest(unittest.TestCase):
         self.assertTrue(type(self.model1_test.state_id) is str)
         self.assertTrue(type(self.model1_test.name) is str)
 
-    def test_save(self):
-        """
-        updating updated_at attribute
-        """
-        model1_utime = self.model1_test.updated_at
-        self.model1_test.save()
-        model1_stime = self.model1_test.updated_at
-        self.assertFalse(model1_utime == model1_stime)
 
 
 if __name__ == '__main__':
