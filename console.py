@@ -15,7 +15,8 @@ from models.__init__ import storage
 
 class Hosh(cmd.Cmd):
     prompt = "(hbnb) "
-    classes = ["BaseModel", "User", "State", "City", "Amenity", "Review", "Place"]
+    classes = ["BaseModel", "User", "State", "City",
+               "Amenity", "Review", "Place"]
     file = None
 
     def preloop(self):
