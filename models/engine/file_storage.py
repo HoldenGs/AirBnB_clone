@@ -3,6 +3,7 @@
 import json
 from models import *
 
+
 class FileStorage:
     __file_path = "storage.json"
     __objects = {}
