@@ -15,8 +15,7 @@ from models.__init__ import storage
 
 class Hosh(cmd.Cmd):
     prompt = "(hbnb) "
-    classes = ["BaseModel", "User", "State", "City",
-               "Amenity", "Review", "Place"]
+    classes = ["BaseModel", "User", "State", "City", "Amenity", "Review", "Place"]
     file = None
 
     def preloop(self):
@@ -107,6 +106,7 @@ class Hosh(cmd.Cmd):
             if args[0][:1] == '.' and args[1][-1:] == ')':
                 formatted_arg = class_method.__name__[3:] + " " + args[1][:-1]
                 l = formatted_arg.split(' ')
+                value = ''
                 if len(l) > 4:
                     print("too many arguments")
                     return
@@ -117,10 +117,10 @@ class Hosh(cmd.Cmd):
                     for item in l[:-1]:
                         formatted_arg += " " + item.strip(',')
                 formatted_arg = formatted_arg + " " + value
-                formatted_arg = formatted_arg[1:]
+                formatted_arg = formatted_arg.strip(' ')
                 exec("self.do_{:s}('{:s}')".format(args[0][1:], formatted_arg))
-        docstring = "Execute method for {} based on argument"
-        class_method.__doc__ = docstring.format(cls)
+        docstring = "Execute method for {} based on argument".format(cls)
+        class_method.__doc__ = docstring
         class_method.__name__ = "do_{}".format(cls)
         setattr(self.__class__, class_method.__name__, class_method)
 
