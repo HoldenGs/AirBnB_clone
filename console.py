@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
-import cmd, sys
+import cmd
+import sys
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -11,9 +12,11 @@ from models.review import Review
 from models.engine.file_storage import FileStorage
 from models.__init__ import storage
 
+
 class Hosh(cmd.Cmd):
     prompt = "(hbnb) "
-    classes = ["BaseModel", "User", "State", "City", "Amenity", "Review", "Place"]
+    classes = ["BaseModel", "User", "State", "City",
+               "Amenity", "Review", "Place"]
     file = None
 
     def preloop(self):
@@ -22,7 +25,7 @@ class Hosh(cmd.Cmd):
     def do_update(self, arg):
         """Update or create a new attribute for an object"""
         obj = find_object(self, arg)
-        if obj == None:
+        if obj is None:
             return
         args = arg.split(' ')
         if len(args) < 4:
@@ -47,14 +50,14 @@ class Hosh(cmd.Cmd):
     def do_destroy(self, arg):
         """Delete an object"""
         obj = find_object(self, arg)
-        if obj != None:
+        if obj is not None:
             del storage.all()[obj.id]
             storage.save()
 
     def do_show(self, arg):
         """Print out an object"""
         obj = find_object(self, arg)
-        if obj != None:
+        if obj is not None:
             print(obj)
 
     def do_create(self, arg):
@@ -102,7 +105,7 @@ class Hosh(cmd.Cmd):
             """Parses arg line and formats a string to use existing methods"""
             args = arg.split('(')
             if args[0][:1] == '.' and args[1][-1:] == ')':
-                formatted_arg = custom_method.__name__[3:] + " " + args[1][:-1]
+                formatted_arg = class_method.__name__[3:] + " " + args[1][:-1]
                 l = formatted_arg.split(' ')
                 if len(l) > 4:
                     print("too many arguments")
@@ -116,9 +119,10 @@ class Hosh(cmd.Cmd):
                 formatted_arg = formatted_arg + " " + value
                 formatted_arg = formatted_arg[1:]
                 exec("self.do_{:s}('{:s}')".format(args[0][1:], formatted_arg))
-        custom_method.__doc__ = "Execute method for {} based on argument".format(cls)
-        custom_method.__name__ = "do_{}".format(cls)
-        setattr(self.__class__, custom_method.__name__, custom_method)
+        docstring = "Execute method for {} based on argument"
+        class_method.__doc__ = docstring.format(cls)
+        class_method.__name__ = "do_{}".format(cls)
+        setattr(self.__class__, class_method.__name__, class_method)
 
     def close(self):
         """Close any open file before exiting"""
