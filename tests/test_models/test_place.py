@@ -32,8 +32,10 @@ class PlaceTest(unittest.TestCase):
         """
         isntance attribute
         """
-        self.assertTrue(type(self.model1_test.amenities) is str)
-        self.assertTrue(type(self.model1_test.name) is str)
+              
+        self.assertEqual(self.model1_test.amenities, [])
+        self.assertEqual(self.model1_test.name, "")
+        
         self.assertTrue(type(self.model1_test.city_id) is str)
         self.assertTrue(type(self.model1_test.user_id) is str)
         self.assertTrue(type(self.model1_test.description) is str)
