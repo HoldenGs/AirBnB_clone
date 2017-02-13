@@ -15,3 +15,6 @@ class FileStorageTest(unittest.TestCase):
 
   def tearDown(self):
     os.removedirs(self._storage_path)
+    
+if __name__ == '__main__':
+    unittest.main()
