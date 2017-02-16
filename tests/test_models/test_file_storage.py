@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 """
-The full credit of this code goes to Swati Gupta:
-https://github.com/guptaNswati/AirBnB_clone/blob/master/tests/test_models/test_engine/test_file_storage.py
+The  credit of json testing goes to 
+http://stackoverflow.com/questions/29637076/python-unittest-for-method-returning-json-string 
+and Swati Gupta:
+https://raw.githubusercontent.com/guptaNswati/AirBnB_clone/master/models/engine/file_storage.py
 This is FileStorage class unittest module. This class tests FileStorage class.
 """
 import unittest
@@ -11,7 +13,7 @@ import json
 from models.engine.file_storage import FileStorage
 
 
-class TestFileStorage(unittest.TestCase):
+class FileStorageTest(unittest.TestCase):
     """
     Create object of FileStorage class for testing.
     """
@@ -30,7 +32,7 @@ class TestFileStorage(unittest.TestCase):
         self.assertFalse(hasattr(self.test2, "id"))
 
     """
-    Test save method.
+    Test save method, encoding python dictionary into JSON-encoded string.
     """
     def test_save(self):
         mock_val = {"id": {"__class__": "BaseModel"}}
@@ -38,7 +40,7 @@ class TestFileStorage(unittest.TestCase):
         self.assertTrue(type(expected_val) is str)
 
     """
-    Test reload method.
+    Test reload method, decoding JSON-encoded string back into a python dictionary structure 
     """
     def test_reload(self):
         mock_val = '{"id": {"__class__": "BaseModel"}}'
@@ -46,5 +48,5 @@ class TestFileStorage(unittest.TestCase):
         self.assertTrue(type(expected_val) is dict)
 
 
-suite = unittest.TestLoader().loadTestsFromTestCase(TestFileStorage)
+suite = unittest.TestLoader().loadTestsFromTestCase(FileStorageTest)
 unittest.TextTestRunner(verbosity = 2).run(suite)
