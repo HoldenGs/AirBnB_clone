@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 """
-The full credit of this code goes to Swati Gupta:
+The  credit of json testing goes to 
+http://stackoverflow.com/questions/29637076/python-unittest-for-method-returning-json-string 
+and Swati Gupta:
 https://raw.githubusercontent.com/guptaNswati/AirBnB_clone/master/models/engine/file_storage.py
 This is FileStorage class unittest module. This class tests FileStorage class.
 """
@@ -11,7 +13,7 @@ import json
 from models.engine.file_storage import FileStorage
 
 
-class TestFileStorage(unittest.TestCase):
+class FileStorageTest(unittest.TestCase):
     """
     Create object of FileStorage class for testing.
     """
@@ -46,5 +48,5 @@ class TestFileStorage(unittest.TestCase):
         self.assertTrue(type(expected_val) is dict)
 
 
-suite = unittest.TestLoader().loadTestsFromTestCase(TestFileStorage)
+suite = unittest.TestLoader().loadTestsFromTestCase(FileStorageTest)
 unittest.TextTestRunner(verbosity = 2).run(suite)
