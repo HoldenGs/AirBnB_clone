@@ -3,8 +3,6 @@
 The TestConsole Module defines a TestConsole class that
 inherits from unittest.TestCase for testing Hosh class, an interactive
 shell based on cmd.Cmd
-credit of  "test_create_object"etc, for this module goes to Danton Rodriguez
-(https://github.com/p0516357)
 """
 import sys
 import unittest
@@ -55,36 +53,6 @@ class TestConsole(unittest.TestCase):
         cli = self.create()
         self.assertTrue(cli.onecmd("EOF"))
 
-    def test_create_object(self):
-        """test method for do_create method errors"""
-        cli = self.create()
-        with captured_stdout() as stdout, captured_stderr() as stderr:
-            expected = "** class name missing **\n"
-            self.assertFalse(cli.onecmd("create"))
-            self.assertEqual(expected, stdout.getvalue())
-
-        with captured_stdout() as stdout, captured_stderr() as stderr:
-            expected = "** class doesn't exist **\n"
-            self.assertFalse(cli.onecmd("create airplanes"))
-            self.assertEqual(expected, stdout.getvalue())
-        
-
-    def test_show_object(self):
-        """test method for do_show method errors"""
-        cli = self.create()
-        with captured_stdout() as stdout, captured_stderr() as stderr:
-            self.assertFalse(cli.onecmd("show"))
-            self.assertEqual(TestConsole.missing_class, stdout.getvalue())
-        with captured_stdout() as stdout, captured_stderr() as stderr:
-            self.assertFalse(cli.onecmd("show Korea"))
-            self.assertEqual(TestConsole.no_class, stdout.getvalue())
-        with captured_stdout() as stdout, captured_stderr() as stderr:
-            self.assertFalse(cli.onecmd("show BaseModel AA"))
-            self.assertEqual(TestConsole.no_instance, stdout.getvalue())
-        with captured_stdout() as stdout, captured_stderr() as stderr:
-            self.assertFalse(cli.onecmd("show BaseModel"))
-            self.assertEqual(TestConsole.missing_id, stdout.getvalue())
-        
 
     def test_destroy_object(self):
         """test method for do_destroy"""
