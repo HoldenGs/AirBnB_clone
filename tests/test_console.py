@@ -1,4 +1,3 @@
-
 #!/usr/bin/python3
 """
 The TestConsole Module defines a TestConsole class that
@@ -21,11 +20,7 @@ class TestConsole(unittest.TestCase):
     """
     Create automated tests for interactive shell based on cmd module
     """
-    no_instance = "** no instance found **\n"
-    no_class = "** class doesn't exist **\n"
-    missing_class = "** class name missing **\n"
-    missing_id = "** instance id missing **\n"
-    
+       
     def setUp(self):
         """setup method for Console Test Class"""
         self.mock_stdin = unittest.mock.create_autospec(sys.stdin)
@@ -85,7 +80,8 @@ class TestConsole(unittest.TestCase):
         bad_input = 'update BaseModel This-is-testing-98'
         with patch('sys.stdout', new=StringIO()) as fakeOutput:
             self.assertFalse(cli.onecmd(bad_input))
-        self.assertEqual('** value missing **', '** value missing **')
+        self.assertEqual('** no instance found **', '** no instance found **')
+
 
     def test_all(self):
         """
@@ -95,8 +91,8 @@ class TestConsole(unittest.TestCase):
         cli = self.create()
         with patch('sys.stdout', new=StringIO()) as fakeOutput:
             self.assertFalse(cli.onecmd('classname.all()'))
-        self.assertEqual("** class doesn't exist **",
-                         "** class doesn't exist **")
+        self.assertEqual('*** Unknown syntax: classname.all()',
+                         '*** Unknown syntax: classname.all()')
 
 suite = unittest.TestLoader().loadTestsFromTestCase(TestConsole)
 unittest.TextTestRunner(verbosity = 2).run(suite)
