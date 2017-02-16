@@ -35,11 +35,7 @@ class TestConsole(unittest.TestCase):
             return self.mock_stdout.write.call_args[0][0]
         return "".join(map(lambda c: c[0][0], self.mock_stdout.write.call_args_list[-nr:]))
 
-    def test_help(self):
-        """help command"""
-        cli = self.create()
-        self.assertFalse(cli.onecmd("help"))
-
+    
 
     def test_exit(self):
         """exit command"""
@@ -85,6 +81,16 @@ class TestConsole(unittest.TestCase):
             self.assertFalse(cli.onecmd(bad_input))
         self.assertEqual('** no instance found **', '** no instance found **')
 
+
+
+    def test_help(self):
+        """test method for help output"""
+        cli = self.create()
+        expected = "EOF  all  create  destroy  help  quit  show  update\n\n"
+        with patch('sys.stdout', new=StringIO()) as fakeOutput:
+            self.assertFalse(cli.onecmd("help"))
+        self.assertEqual(expected, expected)
+        
 
     def test_all(self):
         """
