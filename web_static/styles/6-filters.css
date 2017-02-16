@@ -24,6 +24,7 @@
 }
 
 .popover {
+  z-index: 100;
   display: none;
   margin-top: 3px;
   width: 75.8%;
