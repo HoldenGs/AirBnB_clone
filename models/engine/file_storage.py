@@ -5,16 +5,29 @@ from models import *
 
 
 class FileStorage:
+    """
+    This class makes a file to store json objects; it can serialize
+    and deserialize json
+    """
     __file_path = "storage.json"
     __objects = {}
 
     def all(self):
+        """
+        Returns the objects stored
+        """
         return self.__objects
 
     def new(self, obj):
+        """
+        Instantiates a new file storage object that we can then use for storage
+        """
         self.__objects[obj.id] = obj
 
     def save(self):
+        """
+        Serializes the objects as json and stores them in a file
+        """
         objects = {}
         for key in self.__objects.keys():
             objects[key] = self.__objects[key].to_json()
@@ -22,25 +35,15 @@ class FileStorage:
             json.dump(objects, file)
 
     def reload(self):
+        """
+        Deserializes the json string in the file and puts the objects
+        in a dictionary
+        """
         try:
             objects = {}
             with open(self.__file_path, 'r') as file:
                 objects = json.load(file)
-                for key in objects.keys():
-                    cls = objects[key].get('__class__')
-                    if cls == "Review":
-                        self.__objects[key] = Review(objects[key])
-                    if cls == "Place":
-                        self.__objects[key] = Place(objects[key])
-                    if cls == "Amenity":
-                        self.__objects[key] = Amenity(objects[key])
-                    if cls == "City":
-                        self.__objects[key] = City(objects[key])
-                    if cls == "State":
-                        self.__objects[key] = State(objects[key])
-                    if cls == "User":
-                        self.__objects[key] = User(objects[key])
-                    if cls == "BaseModel":
-                        self.__objects[key] = BaseModel(objects[key])
+                for key, obj in objects.items():
+                    self.__objects[key] = eval(obj['__class__'])(obj)
         except FileNotFoundError:
             pass
