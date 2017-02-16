@@ -14,12 +14,17 @@ from models.__init__ import storage
 
 
 class Hosh(cmd.Cmd):
+    """
+    Hosh is a command console which allows for manipulation and storage of
+    different class objects
+    """
     prompt = "(hbnb) "
     classes = ["BaseModel", "User", "State", "City",
                "Amenity", "Review", "Place"]
     file = None
 
     def preloop(self):
+        """Create custom class functions upon console initialization"""
         self.create_class_methods()
 
     def do_count(self, arg):
@@ -78,20 +83,7 @@ class Hosh(cmd.Cmd):
 
     def do_create(self, arg):
         """Create a new BaseModel object"""
-        if arg == "BaseModel":
-            new_model = BaseModel()
-        elif arg == "User":
-            new_model = User()
-        elif arg == "State":
-            new_model = State()
-        elif arg == "City":
-            new_model = City()
-        elif arg == "Amenity":
-            new_model = Amenity()
-        elif arg == "Place":
-            new_model = Place()
-        elif arg == "Review":
-            new_model = Review()
+        new_model = eval(arg)()
         new_model.save()
         print("{}".format(new_model.id))
 
@@ -135,18 +127,12 @@ class Hosh(cmd.Cmd):
                         formatted_arg += " " + item.strip(',')
                 formatted_arg = formatted_arg + " " + value
                 formatted_arg = formatted_arg.strip(' ')
+                print(formatted_arg)
                 exec("self.do_{:s}('{:s}')".format(args[0][1:], formatted_arg))
         docstring = "Execute method for {} based on argument".format(cls)
         class_method.__doc__ = docstring
         class_method.__name__ = "do_{}".format(cls)
         setattr(self.__class__, class_method.__name__, class_method)
-
-    def close(self):
-        """Close any open file before exiting"""
-        if self.file:
-            self.file.close()
-            self.file = None
-
 
 def find_object(self, arg):
     """Find an object based on class and id"""
