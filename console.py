@@ -22,6 +22,22 @@ class Hosh(cmd.Cmd):
     def preloop(self):
         self.create_class_methods()
 
+    def do_count(self, arg):
+        """Count all of the objects currently stored"""
+        count = 0
+        if len(arg) == 0:
+            for key in storage.all().keys():
+                count += 1
+            print(count)
+            return
+        if arg not in self.classes:
+            print("** class doesn't exist **")
+            return
+        for key in storage.all().keys():
+            if storage.all()[key].__class__.__name__ == arg:
+                count += 1
+        print(count)
+
     def do_update(self, arg):
         """Update or create a new attribute for an object"""
         obj = find_object(self, arg)
