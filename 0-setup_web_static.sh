@@ -5,11 +5,11 @@ if [ ! -d /etc/nginx/ ]; then
 fi
 sudo mkdir -p /data/web_static/releases/test/
 sudo mkdir -p /data/web_static/shared/
-echo "Holberton yo!" > /data/web_static/releases/test/index.html
+echo "Holberton yo!" | sudo tee /data/web_static/releases/test/index.html > /dev/null
 
-ln -sf /data/web_static/releases/test/ /data/web_static/current
+sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 
-chown -R ubuntu:ubuntu /data/
+sudo chown -R ubuntu:ubuntu /data/
 
 sudo sed -i "29i\        location /hbtn_static/ {\n                alias /data/web_static/current;\n        }\n" /etc/nginx/sites-enabled/default
 sudo service nginx restart
