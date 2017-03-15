@@ -11,5 +11,5 @@ ln -sf /data/web_static/releases/test/ /data/web_static/current
 
 chown -R ubuntu:ubuntu /data/
 
-sudo sed -i "29i\        location /hbtn_static/ {\n                alias /data/web_static/current/;\n" /etc/nginx/sites-enabled/default
+sudo sed -i "29i\        location /hbtn_static/ {\n                alias /data/web_static/current;\n" /etc/nginx/sites-enabled/default
 sudo service nginx restart
