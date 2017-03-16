@@ -36,15 +36,15 @@ def do_deploy(archive_path):
         webfolder = archive.split('.')[0]
         sudo('mkdir -p /data/web_static/releases/{}/'.format(webfolder))
         sudo('tar -xzf /tmp/{} -C /data/web_static/releases/{}/'
-            .format(archive, webfolder))
+             .format(archive, webfolder))
         sudo('rm /tmp/{}'.format(archive))
         sudo('mv /data/web_static/releases/{}/web_static/* \
         /data/web_static/releases/{}/'.format(webfolder, webfolder))
         sudo('rm -rf /data/web_static/current')
         sudo('rm -rf /data/web_static/releases/{}/web_static'
-            .format(webfolder))
+             .format(webfolder))
         sudo('ln -s /data/web_static/releases/{} /data/web_static/current'
-            .format(webfolder))
+             .format(webfolder))
         return True
     except:
         return False
