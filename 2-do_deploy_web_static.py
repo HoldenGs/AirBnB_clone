@@ -28,6 +28,7 @@ def do_deploy(archive_path):
     """
     if not os.path.isfile(archive_path):
         return False
+
     try:
         archive = archive_path.split('/')[1]
         put(archive_path, '/tmp/')
