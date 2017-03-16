@@ -34,16 +34,17 @@ def do_deploy(archive_path):
         archive = archive_path.split('/')[1]
         put(archive_path, '/tmp/')
         webfolder = archive.split('.')[0]
-        sudo('mkdir -p /data/web_static/releases/{}/'.format(webfolder))
-        sudo('tar -xzf /tmp/{} -C /data/web_static/releases/{}/'
+        run('mkdir -p /data/web_static/releases/{}/'.format(webfolder))
+        run('tar -xzf /tmp/{} -C /data/web_static/releases/{}/'
              .format(archive, webfolder))
-        sudo('rm /tmp/{}'.format(archive))
-        sudo('mv /data/web_static/releases/{}/web_static/* \
+        run('rm /tmp/{}'.format(archive))
+        run('mv /data/web_static/releases/{}/web_static/* \
         /data/web_static/releases/{}/'.format(webfolder, webfolder))
-        sudo('rm -rf /data/web_static/current')
-        sudo('rm -rf /data/web_static/releases/{}/web_static'
+        run('rm -rf /data/web_static/current')
+        run('rm -rf /data/web_static/releases/{}/web_static'
              .format(webfolder))
-        sudo('ln -s /data/web_static/releases/{} /data/web_static/current'
+        run('ln -s /data/web_static/releases/{} /data/web_static/current'
              .format(webfolder))
+        return True
     except:
         return False
