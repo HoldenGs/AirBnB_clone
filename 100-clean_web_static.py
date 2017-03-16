@@ -5,16 +5,43 @@ from time import strftime
 from os import path, remove
 from glob import glob
 
-env.user = 'Ubuntu'
+env.user = 'ubuntu'
 env.hosts = ['52.23.152.105', '52.203.4.8']
 archive_path = None
 
 
 def do_clean(number=0):
     """
+    Delete archives in the local directory as well as on the remote
+    servers
+    """
+    local_clean(number)
+    remote_clean(number)
+    print("\nSuccessfully removed archives \
+    \n------- ------- \
+    \n{} archives remain\n".format(number))
+
+
+def remote_clean(number=0):
+    """
     Delete all archives except the most recent number - specified as an arg
     """
-    if number in (0, 1):
+    archive_path = "/data/web_static/releases"
+    if int(number) == 0:
+        number = '1'
+    files = sudo('ls -1t {}'.format(archive_path)).split('\r\n')
+    for file in files[int(number):]:
+        sudo('rm -R {}/{}'.format(archive_path, file))
+
+
+@runs_once
+def local_clean(number=0):
+    """
+    Delete all archives except the most recent number - specified as an arg
+    """
+    if int(number) == len(glob("versions/" + "*")):
+        return
+    if int(number) in (0, 1):
         files = glob("versions/" + "*")
         files.sort(key=lambda x: path.getctime(x))
         for i in range(len(files) - 1):
