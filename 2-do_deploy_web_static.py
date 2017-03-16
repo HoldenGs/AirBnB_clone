@@ -5,7 +5,6 @@ from time import strftime
 from os import path
 
 env.hosts = ['52.23.152.105', '52.203.4.8']
-archive_path = None
 
 
 def do_pack():
@@ -27,7 +26,7 @@ def do_deploy(archive_path):
     """
     Deploy an archive to the webservers
     """
-    if archive_path is None:
+    if not os.path.isfile(archive_path):
         return False
     try:
         archive = archive_path.split('/')[1]
