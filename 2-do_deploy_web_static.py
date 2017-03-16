@@ -42,7 +42,7 @@ def do_deploy(archive_path):
         sudo('rm -rf /data/web_static/current')
         sudo('rm -rf /data/web_static/releases/{}/web_static'
              .format(webfolder))
-        sudo('ln -sf /data/web_static/releases/{} /data/web_static/current'
+        sudo('ln -s /data/web_static/releases/{} /data/web_static/current'
              .format(webfolder))
     except:
         return False
