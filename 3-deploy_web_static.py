@@ -54,6 +54,7 @@ def deploy():
     """
     Pack and deploy the most recent static web code
     """
+    global archive_path
     if archive_path is None:
         archive_path = do_pack()
     if archive_path is None:
